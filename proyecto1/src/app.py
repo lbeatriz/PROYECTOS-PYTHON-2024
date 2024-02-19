@@ -8,11 +8,12 @@ def index():
 
 @app.route('/saludo/<name>')
 def saludo(name):
-    return '<h2>hola '+name+'</h2>'
+    return render_template('saludo.html',nombre=name)
 
 @app.route('/saludo1/<name1>/<edad>')
 def saludo1(name1,edad):
-    return '<h2>Hola '+name1+' tienes '+edad+' años</h2>'
+    return render_template('saludo1.html',nombre=name1,edad=edad)
+   
     
 
 app.run(debug=True)
