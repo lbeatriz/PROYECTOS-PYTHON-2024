@@ -1,10 +1,12 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 
 app=Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def index():
-    return render_template('index.html')
+    correo = request.form['email']
+    password = request.form['password']
+    return render_template('index.html',correo=correo,password=password)
 
 @app.route('/saludo/<name>')
 def saludo(name):
@@ -13,6 +15,11 @@ def saludo(name):
 @app.route('/saludo1/<name1>/<edad>')
 def saludo1(name1,edad):
     return render_template('saludo1.html',nombre=name1,edad=edad)
+
+@app.route('/login')
+def login():
+    
+    return render_template('login.html')
    
     
 
