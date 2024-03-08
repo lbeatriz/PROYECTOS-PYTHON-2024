@@ -20,6 +20,16 @@
                         <input type="email" class="form-control mb-3" name="email">
                         <label for="">contraseña</label>
                         <input type="password" class="form-control mb-3" name="password">
+                       
+                        {% if message %}
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error </strong>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        {% endif %}
+
                         <button type="submit" class="btn btn-primary w-100">
                           acceder  
                         </button>

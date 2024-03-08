@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 import config
 from flask_mysqldb import MySQL
 
@@ -7,6 +7,7 @@ app=Flask(__name__)
 app.config["MYSQL_USER"]= config.MYSQL_USER
 app.config["MYSQL_DB"]= config.MYSQL_DB
 app.config["MYSQL_PASSWORD"]= config.MYSQL_PASSWORD
+app.config['SECRET_KEY'] = config.HEX_SEC_KEY
 
 mysql= MySQL(app)
 @app.route('/')
@@ -22,12 +23,17 @@ def login():
     user=cur.fetchone()
     cur.close()
     if user is not None:
-        return redirect(url_for("tasks"))
-    return render_template('login.html')
+        session['email'] = email
+        session['name'] = user[1]
+        session['surnames'] = user[2]
+
+        return redirect(url_for('tasks'))
+    else:
+        return render_template('login.html', message="Email o contraseña incorrectos")
 
 @app.route("/tasks")
 def tasks ():
-    return "Usuario Valido"
+    return render_template('tasks.html')
 
 if __name__ =='__main__':
     app.run(debug=True)
