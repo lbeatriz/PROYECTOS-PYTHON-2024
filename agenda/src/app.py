@@ -26,7 +26,6 @@ def login():
     if user is not None:
         session['email'] = email
         session['name'] = user[1]
-        session['surnames'] = user[2]
 
         return redirect(url_for('tasks'))
     else:
@@ -34,7 +33,6 @@ def login():
 
 @app.route("/tasks",methods=['GET'])
 def tasks ():
-  
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM tasks")
     tasks = cur.fetchall()
@@ -55,7 +53,7 @@ def add_task():
         cur.close()
         return redirect(url_for('tasks'))
     
-@app.route('/edit_task/<int:id>', methods=['GET', 'POST'])
+@app.route('/edit_task/<int:id>', methods=['POST'])
 def edit_task(id):
     cur = mysql.connection.cursor()
     if request.method == 'POST':
@@ -65,11 +63,6 @@ def edit_task(id):
         mysql.connection.commit()
         cur.close()
         return redirect(url_for('tasks'))
-    else:
-        cur.execute("SELECT * FROM tasks WHERE id = %s", (id))
-        task = cur.fetchone()
-        cur.close()
-        return render_template('edit.html', task=task)
 
 @app.route('/delete_task', methods=['POST'])
 def delete_task():

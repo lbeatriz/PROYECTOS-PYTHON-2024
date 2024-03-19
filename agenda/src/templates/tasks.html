@@ -21,7 +21,7 @@
         <div class="col-12 text-center">
             <h1 class="mt-4">Lista de tareas</h1>
             <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#taskModal" data-taskid="0">Agregar tarea <i class="fas fa-plus"></i></button>
-            <table class="table">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -81,11 +81,6 @@
 </body>
 
  <script>
-
-
-    function editar(id,nombre,descripcion){
-        console.log(nombre);
-    }
        
     const nombreModal = document.getElementById('taskModal')
 if (nombreModal) {
@@ -110,32 +105,11 @@ if (nombreModal) {
     if(id){
         nombreModal.querySelector('.modal-title').textContent = 'Editar tarea';
         nombreModal.querySelector('#taskForm').setAttribute('action', '{{ url_for("edit_task", id=0) }}'.replace('0', id));
+    }else {
+        nombreModal.querySelector('.modal-title').textContent = 'Agregar tarea';
     }
   })
 }
     
-    
-    
-    $('#taskModal').on('show.bs.modal', function (event) {
-            console.log('evento',event);
-            var button = $(event.relatedTarget);
-            var taskId = button.data('taskid');
-            var modal = $(this);
-            const recipient = button.getAttribute('data-bs-nombre');
-            modal.querySelector('#nombre').text = recipient
-            if (taskId != 0) {
-                modal.find('.modal-title').text('Editar tarea');
-                modal.find('#taskId').val(taskId);
-                modal.find('#nombre').val(button.closest('tr').find('td:eq(1)').text());
-                modal.find('#descripcion').val(button.closest('tr').find('td:eq(2)').text());
-                modal.find('#taskForm').attr('action', '{{ url_for("edit_task", id=0) }}'.replace('0', taskId));
-            } else {
-                modal.find('.modal-title').text('Agregar tarea');
-                modal.find('#taskId').val('');
-                modal.find('#nombre').val('');
-                modal.find('#descripcion').val('');
-                modal.find('#taskForm').attr('action', '{{ url_for("add_task") }}');
-            }
-        });
     </script>
 </html>
